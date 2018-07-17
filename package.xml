@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>rosidl_generator_py</name>
-  <version>0.5.0</version>
+  <version>0.5.2</version>
   <description>Generate the ROS interfaces in Python.</description>
   <maintainer email="mikael@osrfoundation.org">Mikael Arguedas</maintainer>
   <license>Apache License 2.0</license>
@@ -28,6 +28,7 @@
   <test_depend>ament_index_python</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+  <test_depend>python3-pytest</test_depend>
   <test_depend>python_cmake_module</test_depend>
   <test_depend>rmw</test_depend>
   <test_depend>rmw_implementation</test_depend>

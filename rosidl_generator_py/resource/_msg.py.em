@@ -14,6 +14,7 @@
 @#  - value_to_py (function)
 @#######################################################################
 @
+from copy import copy
 import logging
 import traceback
 
@@ -114,6 +115,28 @@ class @(spec.base_type.type)(metaclass=Metaclass):
         '_@(field.name)',
 @[end for]@
     ]
+
+    _fields_and_field_types = {
+@[for field in spec.fields]@
+@[  if field.type.is_primitive_type() ]@
+        '@(field.name)': '@(field.type)',
+@[  else ]@
+@[    if field.type.is_array ]@
+@[      if field.type.array_size ]@
+@[        if field.type.is_upper_bound ]@
+        '@(field.name)': '@(field.type.pkg_name)/@(field.type.type)[<=@(field.type.array_size)]',
+@[        else ]@
+        '@(field.name)': '@(field.type.pkg_name)/@(field.type.type)[@(field.type.array_size)]',
+@[        end if ]@
+@[      else ]@
+        '@(field.name)': '@(field.type.pkg_name)/@(field.type.type)[]',
+@[      end if ]@
+@[    else ]@
+        '@(field.name)': '@(field.type.pkg_name)/@(field.type.type)',
+@[    end if ]@
+@[  end if ]@
+@[end for]@
+    }
 @
 @[if len(spec.fields) > 0]@
 
@@ -175,6 +198,10 @@ class @(spec.base_type.type)(metaclass=Metaclass):
             return False
 @[end for]@
         return True
+
+    @@classmethod
+    def get_fields_and_field_types(cls):
+        return copy(cls._fields_and_field_types)
 @[for field in spec.fields]@
 
 @{
@@ -196,14 +223,14 @@ if field.name in dict(inspect.getmembers(builtins)).keys():
             from @(field.type.pkg_name).msg import @(field.type.type)
 @[  end if]@
 @[  if field.type.is_array]@
-            from collections import Sequence
-            from collections import Set
+            from collections.abc import Sequence
+            from collections.abc import Set
             from collections import UserList
             from collections import UserString
 @[  elif field.type.string_upper_bound]@
             from collections import UserString
 @[  elif field.type.type == 'byte']@
-            from collections import ByteString
+            from collections.abc import ByteString
 @[  elif field.type.type in ['char']]@
             from collections import UserString
 @[  end if]@

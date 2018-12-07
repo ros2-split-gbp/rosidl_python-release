@@ -1,3 +1,28 @@
+## rosidl_python (crystal) - 0.6.1-0
+
+The packages in the `rosidl_python` repository were released into the `crystal` distro by running `/usr/bin/bloom-release --rosdistro crystal --track crystal rosidl_python --override-release-repository-push-url git@github.com:ros2-gbp/rosidl_python-release.git` on `Fri, 07 Dec 2018 04:16:40 -0000`
+
+These packages were released:
+- `python_cmake_module`
+- `rosidl_generator_py`
+
+Version of package(s) in repository `rosidl_python`:
+
+- upstream repository: https://github.com/ros2/rosidl_python.git
+- release repository: https://github.com/ros2-gbp/rosidl_python-release.git
+- rosdistro version: `0.6.0-0`
+- old version: `0.6.0-0`
+- new version: `0.6.1-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.9`
+- catkin_pkg version: `0.4.9`
+- rosdep version: `0.13.0`
+- rosdistro version: `0.7.0`
+- vcstools version: `0.1.40`
+
+
 ## rosidl_python (crystal) - 0.6.0-0
 
 The packages in the `rosidl_python` repository were released into the `crystal` distro by running `/usr/bin/bloom-release -n -r crystal rosidl_python --override-release-repository-push-url git@github.com:ros2-gbp/rosidl_python-release` on `Sat, 17 Nov 2018 04:25:18 -0000`

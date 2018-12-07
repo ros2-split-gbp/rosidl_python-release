@@ -1,4 +1,4 @@
-release_repo_url: git@github.com:ros2-gbp/rosidl_python-release
+release_repo_url: git@github.com:ros2-gbp/rosidl_python-release.git
 tracks:
   bouncy:
     actions:

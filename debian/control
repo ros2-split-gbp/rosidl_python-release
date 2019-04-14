@@ -1,0 +1,12 @@
+Source: ros-dashing-python-cmake-module
+Section: misc
+Priority: extra
+Maintainer: Scott K Logan <scott@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-dashing-ament-cmake, ros-dashing-ament-lint-auto, ros-dashing-ament-lint-common, ros-dashing-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-dashing-python-cmake-module
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-dev, ros-dashing-ros-workspace
+Description: Provide CMake module with extra functionality for Python.

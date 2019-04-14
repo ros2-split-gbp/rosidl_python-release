@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pytest
+import array
 
+import numpy
+import pytest
 from rosidl_generator_py.msg import Constants
 from rosidl_generator_py.msg import Nested
 from rosidl_generator_py.msg import Primitives
@@ -95,7 +97,7 @@ def test_constants():
     assert 123 == Constants.X
     assert -123 == Constants.Y
     assert 'foo' == Constants.FOO
-    assert '\x7F' == Constants.TOTO
+    assert 127 == Constants.TOTO
     assert b'0' == Constants.TATA
 
     with pytest.raises(AttributeError):
@@ -128,11 +130,19 @@ def test_default_values():
     assert ['Hel,lo', ',World', 'abcd', '!,'] == b.DEF_VARIOUS_COMMAS__DEFAULT
 
     c = Various()
-    assert [5, 23] == c.TWO_UINT16_VALUE__DEFAULT
+    assert isinstance(c.TWO_UINT16_VALUE__DEFAULT, numpy.ndarray)
+    assert (2, ) == c.TWO_UINT16_VALUE__DEFAULT.shape
+    assert numpy.uint16 == c.TWO_UINT16_VALUE__DEFAULT.dtype
+    assert [5, 23] == c.TWO_UINT16_VALUE__DEFAULT.tolist()
 
-    assert [5, 23] == c.UP_TO_THREE_INT32_VALUES_WITH_DEFAULT_VALUES__DEFAULT
+    assert isinstance(
+        c.UP_TO_THREE_INT32_VALUES_WITH_DEFAULT_VALUES__DEFAULT, array.array)
+    assert 'i' == \
+        c.UP_TO_THREE_INT32_VALUES_WITH_DEFAULT_VALUES__DEFAULT.typecode
+    assert [5, 23] == \
+        c.UP_TO_THREE_INT32_VALUES_WITH_DEFAULT_VALUES__DEFAULT.tolist()
 
-    assert '\x01' == c.CHAR_VALUE__DEFAULT
+    assert 1 == c.CHAR_VALUE__DEFAULT
     assert '1' != c.CHAR_VALUE__DEFAULT
     assert b'\x01' == c.BYTE_VALUE__DEFAULT
     assert b'1' != c.BYTE_VALUE__DEFAULT
@@ -198,8 +208,8 @@ def test_check_constraints():
     with pytest.raises(AssertionError):
         setattr(c, 'byte_value', 'abc')
 
-    c.char_value = 'a'
-    assert 'a' == c.char_value
+    c.char_value = ord('a')
+    assert ord('a') == c.char_value
     assert b'a' != c.char_value
     with pytest.raises(AssertionError):
         setattr(c, 'char_value', b'a')
@@ -209,11 +219,11 @@ def test_check_constraints():
         setattr(c, 'char_value', b'abc')
 
     c.up_to_three_int32_values = []
-    assert [] == c.up_to_three_int32_values
+    assert [] == c.up_to_three_int32_values.tolist()
     c.up_to_three_int32_values = [12345, -12345]
-    assert [12345, -12345] == c.up_to_three_int32_values
+    assert [12345, -12345] == c.up_to_three_int32_values.tolist()
     c.up_to_three_int32_values = [12345, -12345, 6789]
-    assert [12345, -12345, 6789] == c.up_to_three_int32_values
+    assert [12345, -12345, 6789] == c.up_to_three_int32_values.tolist()
     c.up_to_three_int32_values = [12345, -12345, 6789]
     with pytest.raises(AssertionError):
         setattr(c, 'up_to_three_int32_values', [12345, -12345, 6789, -6789])
@@ -269,8 +279,8 @@ def test_slot_attributes():
     expected_nested_slot_types_dict = {
         'primitives': 'rosidl_generator_py/Primitives',
         'two_primitives': 'rosidl_generator_py/Primitives[2]',
-        'up_to_three_primitives': 'rosidl_generator_py/Primitives[<=3]',
-        'unbounded_primitives': 'rosidl_generator_py/Primitives[]',
+        'up_to_three_primitives': 'sequence<rosidl_generator_py/Primitives, 3>',
+        'unbounded_primitives': 'sequence<rosidl_generator_py/Primitives>',
     }
     assert len(nested_slot_types_dict) == len(expected_nested_slot_types_dict)
 
@@ -287,17 +297,17 @@ def test_primative_slot_attributes():
     string_slots = getattr(b, '__slots__')
     assert len(string_slot_types_dict) == len(string_slots)
     expected_string_slot_types_dict = {
-        'ub_string_static_array_value': 'string<=5[3]',
-        'ub_string_ub_array_value': 'string<=5[<=10]',
-        'ub_string_dynamic_array_value': 'string<=5[]',
-        'string_dynamic_array_value': 'string[]',
+        'ub_string_static_array_value': 'string<5>[3]',
+        'ub_string_ub_array_value': 'sequence<string<5>, 10>',
+        'ub_string_dynamic_array_value': 'sequence<string<5>>',
+        'string_dynamic_array_value': 'sequence<string>',
         'string_static_array_value': 'string[3]',
-        'string_bounded_array_value': 'string[<=10]',
-        'def_string_dynamic_array_value': 'string[]',
+        'string_bounded_array_value': 'sequence<string, 10>',
+        'def_string_dynamic_array_value': 'sequence<string>',
         'def_string_static_array_value': 'string[3]',
-        'def_string_bounded_array_value': 'string[<=10]',
-        'def_various_quotes': 'string[]',
-        'def_various_commas': 'string[]',
+        'def_string_bounded_array_value': 'sequence<string, 10>',
+        'def_various_quotes': 'sequence<string>',
+        'def_various_commas': 'sequence<string>',
     }
 
     assert len(string_slot_types_dict) == len(expected_string_slot_types_dict)

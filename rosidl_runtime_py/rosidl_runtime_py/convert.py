@@ -51,7 +51,7 @@ def message_to_yaml(msg: Any, truncate_length: int = None) -> str:
 
     return yaml.dump(
         message_to_ordereddict(msg, truncate_length=truncate_length),
-        width=sys.maxsize,
+        allow_unicode=True, width=sys.maxsize,
     )
 
 
@@ -128,9 +128,7 @@ def _convert_value(value, truncate_length=None):
     elif isinstance(value, str):
         if truncate_length is not None and len(value) > truncate_length:
             value = value[:truncate_length] + '...'
-    elif (any(
-        isinstance(value, t) for t in [list, tuple, array.array, numpy.ndarray]
-    )):
+    elif isinstance(value, (list, tuple, array.array, numpy.ndarray)):
         # Since arrays and ndarrays can't contain mixed types convert to list
         typename = tuple if isinstance(value, tuple) else list
         if truncate_length is not None and len(value) > truncate_length:
@@ -143,7 +141,7 @@ def _convert_value(value, truncate_length=None):
             # Truncate every item in the list
             value = typename(
                 [_convert_value(v, truncate_length) for v in value])
-    elif isinstance(value, dict) or isinstance(value, OrderedDict):
+    elif isinstance(value, (dict, OrderedDict)):
         # Convert each key and value in the mapping
         new_value = {} if isinstance(value, dict) else OrderedDict()
         for k, v in value.items():
@@ -152,7 +150,17 @@ def _convert_value(value, truncate_length=None):
         value = new_value
     elif isinstance(value, numpy.number):
         value = value.item()
-    elif not any(isinstance(value, t) for t in (bool, float, int)):
+    elif not isinstance(value, (bool, float, int)):
         # Assuming value is a message since it is neither a collection nor a primitive type
         value = message_to_ordereddict(value, truncate_length=truncate_length)
     return value
+
+
+def get_message_slot_types(msg: Any) -> OrderedDict:
+    """
+    Return an OrderedDict of the slot types of a message.
+
+    :param msg: The ROS message to get members types from.
+    :returns: An OrderedDict with message member names as keys and slot types as values.
+    """
+    return OrderedDict(zip([s[1:] for s in msg.__slots__], msg.SLOT_TYPES))

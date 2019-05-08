@@ -12,19 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .convert import get_message_slot_types
-from .convert import message_to_csv
-from .convert import message_to_ordereddict
-from .convert import message_to_yaml
-from .import_message import import_message_from_namespaced_type
-from .set_message import set_message_fields
+from ament_xmllint.main import main
+import pytest
 
 
-__all__ = [
-    'get_message_slot_types',
-    'import_message_from_namespaced_type',
-    'message_to_csv',
-    'message_to_ordereddict',
-    'message_to_yaml',
-    'set_message_fields',
-]
+@pytest.mark.linter
+@pytest.mark.xmllint
+def test_xmllint():
+    rc = main(argv=[])
+    assert rc == 0, 'Found errors'

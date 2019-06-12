@@ -334,7 +334,26 @@ if isinstance(type_, AbstractNestedType):
         typename = self.__class__.__module__.split('.')
         typename.pop()
         typename.append(self.__class__.__name__)
-        args = [s[1:] + '=' + repr(getattr(self, s, None)) for s in self.__slots__]
+        args = []
+        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+            field = getattr(self, s)
+            fieldstr = repr(field)
+            # We use Python array type for fields that can be directly stored
+            # in them, and "normal" sequences for everything else.  If it is
+            # a type that we store in an array, strip off the 'array' portion.
+            if (
+                isinstance(t, rosidl_parser.definition.AbstractSequence) and
+                isinstance(t.value_type, rosidl_parser.definition.BasicType) and
+                t.value_type.typename in @([*SPECIAL_NESTED_BASIC_TYPES])
+            ):
+                if len(field) == 0:
+                    fieldstr = '[]'
+                else:
+                    assert fieldstr.startswith('array(')
+                    prefix = "array('X', "
+                    suffix = ')'
+                    fieldstr = fieldstr[len(prefix):-len(suffix)]
+            args.append(s[1:] + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):

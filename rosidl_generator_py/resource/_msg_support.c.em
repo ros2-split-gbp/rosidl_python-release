@@ -9,6 +9,7 @@ from rosidl_parser.definition import AbstractString
 from rosidl_parser.definition import AbstractWString
 from rosidl_parser.definition import Array
 from rosidl_parser.definition import BasicType
+from rosidl_parser.definition import EMPTY_STRUCTURE_REQUIRED_MEMBER_NAME
 from rosidl_parser.definition import NamespacedType
 
 
@@ -114,7 +115,17 @@ if isinstance(member.type, AbstractNestedType) and isinstance(member.type.value_
 @[if nested_types]@
 // Nested array functions includes
 @[  for type_ in sorted(nested_types)]@
-#include "@('/'.join(type_[:-1]))/@(convert_camel_case_to_lower_case_underscore(type_[-1]))__functions.h"
+@{
+nested_header = '/'.join(type_[:-1] + (convert_camel_case_to_lower_case_underscore(type_[-1]),))
+nested_header += '__functions.h'
+}@
+@[    if nested_header in include_directives]@
+// already included above
+// @
+@[    else]@
+@{include_directives.add(nested_header)}@
+@[    end if]@
+#include "@(nested_header)"
 @[  end for]@
 // end nested array functions include
 @[end if]@
@@ -182,6 +193,10 @@ full_classname = '%s.%s.%s' % ('.'.join(message.structure.namespaced_type.namesp
   }
   @(msg_typename) * ros_message = _ros_message;
 @[for member in message.structure.members]@
+@[  if len(message.structure.members) == 1 and member.name == EMPTY_STRUCTURE_REQUIRED_MEMBER_NAME]@
+  ros_message->@(member.name) = 0;
+@[    continue]@
+@[  end if]@
 @{
 type_ = member.type
 if isinstance(type_, AbstractNestedType):
@@ -490,8 +505,15 @@ PyObject * @('__'.join(message.structure.namespaced_type.namespaces + [convert_c
       return NULL;
     }
   }
+@[if len(message.structure.members) == 1 and member.name == EMPTY_STRUCTURE_REQUIRED_MEMBER_NAME]@
+  (void)raw_ros_message;
+@[else]@
   @(msg_typename) * ros_message = (@(msg_typename) *)raw_ros_message;
+@[end if]@
 @[for member in message.structure.members]@
+@[  if len(message.structure.members) == 1 and member.name == EMPTY_STRUCTURE_REQUIRED_MEMBER_NAME]@
+@[    continue]@
+@[  end if]@
 @{
 type_ = member.type
 if isinstance(type_, AbstractNestedType):

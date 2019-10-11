@@ -190,13 +190,7 @@ target_include_directories(${_target_name_lib}
   ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_py
   ${PythonExtra_INCLUDE_DIRS}
 )
-
-# Check if numpy is in the include path
-find_file(_numpy_h numpy/numpyconfig.h
-  PATHS ${PythonExtra_INCLUDE_DIRS}
-)
-
-if(APPLE OR WIN32 OR NOT _numpy_h)
+if(APPLE OR WIN32)
   # add include directory for numpy headers
   set(_python_code
     "import numpy"
@@ -213,7 +207,6 @@ if(APPLE OR WIN32 OR NOT _numpy_h)
       "execute_process(${PYTHON_EXECUTABLE} -c '${_python_code}') returned "
       "error code ${_result}")
   endif()
-  message(STATUS "Using numpy include directory: ${_output}")
   target_include_directories(${_target_name_lib} PUBLIC "${_output}")
 endif()
 
@@ -280,6 +273,7 @@ foreach(_typesupport_impl ${_typesupport_impls})
   ament_target_dependencies(${_target_name}
     "rosidl_generator_c"
     "rosidl_generator_py"
+    "${rosidl_generate_interfaces_TARGET}__rosidl_generator_c"
   )
 
   if(NOT rosidl_generate_interfaces_SKIP_INSTALL)

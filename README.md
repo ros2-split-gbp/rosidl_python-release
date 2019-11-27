@@ -1,3 +1,29 @@
+## rosidl_python (dashing) - 0.7.10-1
+
+The packages in the `rosidl_python` repository were released into the `dashing` distro by running `/usr/bin/bloom-release -r dashing -t dashing rosidl_python` on `Wed, 27 Nov 2019 22:04:19 -0000`
+
+These packages were released:
+- `python_cmake_module`
+- `rosidl_generator_py`
+- `rosidl_runtime_py`
+
+Version of package(s) in repository `rosidl_python`:
+
+- upstream repository: https://github.com/ros2/rosidl_python.git
+- release repository: https://github.com/ros2-gbp/rosidl_python-release.git
+- rosdistro version: `0.7.9-1`
+- old version: `0.7.9-1`
+- new version: `0.7.10-1`
+
+Versions of tools used:
+
+- bloom version: `0.9.0`
+- catkin_pkg version: `0.4.14`
+- rosdep version: `0.18.0`
+- rosdistro version: `0.7.5`
+- vcstools version: `0.1.42`
+
+
 ## rosidl_python (eloquent) - 0.8.1-1
 
 The packages in the `rosidl_python` repository were released into the `eloquent` distro by running `/home/jacob/.local/bin/bloom-release -r eloquent rosidl_python` on `Thu, 24 Oct 2019 00:21:17 -0000`

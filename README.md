@@ -1,3 +1,26 @@
+## rosidl_python (foxy) - 0.9.0-1
+
+The packages in the `rosidl_python` repository were released into the `foxy` distro by running `/usr/bin/bloom-release -r foxy rosidl_python` on `Sat, 25 Apr 2020 19:53:55 -0000`
+
+The `rosidl_generator_py` package was released.
+
+Version of package(s) in repository `rosidl_python`:
+
+- upstream repository: https://github.com/ros2/rosidl_python.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.9.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.9.3`
+- catkin_pkg version: `0.4.17`
+- rosdep version: `0.19.0`
+- rosdistro version: `0.8.1`
+- vcstools version: `0.1.42`
+
+
 ## rosidl_python (dashing) - 0.7.10-1
 
 The packages in the `rosidl_python` repository were released into the `dashing` distro by running `/usr/bin/bloom-release -r dashing -t dashing rosidl_python` on `Wed, 27 Nov 2019 22:04:19 -0000`

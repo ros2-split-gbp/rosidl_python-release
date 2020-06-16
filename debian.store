@@ -1,1 +1,1 @@
-{"base": "57a4336", "parent": "debian/foxy/rosidl_generator_py", "previous": "15d9ac9", "trim": "", "trimbase": ""}
+{"base": "ec00478", "parent": "debian/rolling/rosidl_generator_py", "previous": "4ac5246", "trim": "", "trimbase": ""}

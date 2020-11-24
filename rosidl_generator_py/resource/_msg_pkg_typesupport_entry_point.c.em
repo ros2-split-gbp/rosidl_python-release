@@ -3,16 +3,16 @@
 from rosidl_cmake import convert_camel_case_to_lower_case_underscore
 
 include_parts = idl_type.namespaces + [
-    'detail', convert_camel_case_to_lower_case_underscore(idl_type.name)]
+    convert_camel_case_to_lower_case_underscore(idl_type.name)]
 include_base = '/'.join(include_parts)
 
 header_files = [
     'stdbool.h',
     'stdint.h',
-    'rosidl_runtime_c/visibility_control.h',
-    'rosidl_runtime_c/message_type_support_struct.h',
-    'rosidl_runtime_c/service_type_support_struct.h',
-    'rosidl_runtime_c/action_type_support_struct.h',
+    'rosidl_generator_c/visibility_control.h',
+    'rosidl_generator_c/message_type_support_struct.h',
+    'rosidl_generator_c/service_type_support_struct.h',
+    'rosidl_generator_c/action_type_support_struct.h',
     include_base + '__type_support.h',
     include_base + '__struct.h',
     include_base + '__functions.h',

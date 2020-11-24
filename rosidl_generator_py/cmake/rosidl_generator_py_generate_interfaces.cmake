@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+find_package(rmw_implementation_cmake REQUIRED)
 find_package(rmw REQUIRED)
-find_package(rosidl_runtime_c REQUIRED)
+find_package(rosidl_generator_c REQUIRED)
 find_package(rosidl_typesupport_c REQUIRED)
 find_package(rosidl_typesupport_interface REQUIRED)
 
@@ -173,8 +174,6 @@ endmacro()
 
 set(_target_name_lib "${rosidl_generate_interfaces_TARGET}__python")
 add_library(${_target_name_lib} SHARED ${_generated_c_files})
-target_link_libraries(${_target_name_lib}
-  ${rosidl_generate_interfaces_TARGET}__rosidl_generator_c)
 add_dependencies(
   ${_target_name_lib}
   ${rosidl_generate_interfaces_TARGET}${_target_suffix}
@@ -223,11 +222,6 @@ rosidl_target_interfaces(${_target_name_lib}
 
 foreach(_typesupport_impl ${_typesupport_impls})
   find_package(${_typesupport_impl} REQUIRED)
-  # a typesupport package might not be able to generated a target anymore
-  # (e.g. if an underlying vendor package isn't available in an overlay)
-  if(NOT TARGET ${rosidl_generate_interfaces_TARGET}__${_typesupport_impl})
-    continue()
-  endif()
 
   set(_pyext_suffix "__pyext")
   set(_target_name "${PROJECT_NAME}__${_typesupport_impl}${_pyext_suffix}")
@@ -270,7 +264,7 @@ foreach(_typesupport_impl ${_typesupport_impls})
     ${rosidl_generate_interfaces_TARGET} rosidl_typesupport_c)
 
   ament_target_dependencies(${_target_name}
-    "rosidl_runtime_c"
+    "rosidl_generator_c"
     "rosidl_typesupport_c"
     "rosidl_typesupport_interface"
   )
@@ -284,8 +278,9 @@ foreach(_typesupport_impl ${_typesupport_impls})
     ${rosidl_generate_interfaces_TARGET}__${_typesupport_impl}
   )
   ament_target_dependencies(${_target_name}
-    "rosidl_runtime_c"
+    "rosidl_generator_c"
     "rosidl_generator_py"
+    "${rosidl_generate_interfaces_TARGET}__rosidl_generator_c"
   )
 
   if(NOT rosidl_generate_interfaces_SKIP_INSTALL)

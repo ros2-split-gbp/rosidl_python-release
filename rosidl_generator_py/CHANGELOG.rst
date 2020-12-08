@@ -2,10 +2,42 @@
 Changelog for package rosidl_generator_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.8.2 (2020-12-04)
+0.9.4 (2020-12-08)
 ------------------
-* fix too early decref of WString when converting from Python to C (`#117 <https://github.com/ros2/rosidl_python/issues/117>`_) (`#121 <https://github.com/ros2/rosidl_python/issues/121>`_)
+* Update maintainers (`#119 <https://github.com/ros2/rosidl_python/issues/119>`_)
+* Fix too early decref of WString when converting from Python to C (`#117 <https://github.com/ros2/rosidl_python/issues/117>`_)
+* Add pytest.ini so tests succeed locally. (`#116 <https://github.com/ros2/rosidl_python/issues/116>`_)
+* Contributors: Chris Lalancette, Claire Wang, Dirk Thomas
+
+0.9.3 (2020-05-19)
+------------------
+* Add test_depend on rpyutils (`#115 <https://github.com/ros2/rosidl_python/issues/115>`_)
 * Contributors: Jacob Perron
+
+0.9.2 (2020-05-18)
+------------------
+* Explicitly add DLL directories for Windows before importing (`#113 <https://github.com/ros2/rosidl_python/issues/113>`_)
+* Force extension points to be registered in order (`#112 <https://github.com/ros2/rosidl_python/issues/112>`_)
+* Contributors: Ivan Santiago Paunovic, Jacob Perron
+
+0.9.1 (2020-04-29)
+------------------
+* Add test dependency on rosidl_typesupport_c_packages (`#110 <https://github.com/ros2/rosidl_python/issues/110>`_)
+* Contributors: Jacob Perron
+
+0.9.0 (2020-04-25)
+------------------
+* Ensure the Python support target links against the C generator target (`#108 <https://github.com/ros2/rosidl_python/issues/108>`_)
+* Skip inoperable typesupport implementations (`#107 <https://github.com/ros2/rosidl_python/issues/107>`_)
+* Update includes to use non-entry point headers from detail subdirectory (`#105 <https://github.com/ros2/rosidl_python/issues/105>`_)
+* Rename rosidl_generator_c namespace to rosidl_runtime_c (`#103 <https://github.com/ros2/rosidl_python/issues/103>`_)
+* Remove dependency on rmw_implementation (`#102 <https://github.com/ros2/rosidl_python/issues/102>`_)
+* Added rosidl_runtime c and cpp depencencies (`#100 <https://github.com/ros2/rosidl_python/issues/100>`_)
+* Move 'noqa: A003' for fields named like a builtin from property to method line (`#101 <https://github.com/ros2/rosidl_python/issues/101>`_)
+* Add warnings for reserved Python keywords in interface members, services and actions (`#96 <https://github.com/ros2/rosidl_python/issues/96>`_)
+* Code style only: wrap after open parenthesis if not in one line (`#97 <https://github.com/ros2/rosidl_python/issues/97>`_)
+* Use f-string (`#98 <https://github.com/ros2/rosidl_python/issues/98>`_)
+* Contributors: Alejandro Hernández Cordero, Dirk Thomas, Samuel Lindgren
 
 0.8.1 (2019-10-23)
 ------------------

@@ -1,0 +1,42 @@
+From c389fa5a4112a838f6f87059418e39dbc53766e6 Mon Sep 17 00:00:00 2001
+From: Scott K Logan <logans@cottsay.net>
+Date: Wed, 10 Mar 2021 18:19:51 -0800
+Subject: [PATCH] Drop FastRTPS and Connext dependencies
+
+These RMWs aren't available for RHEL.
+
+Signed-off-by: Scott K Logan <logans@cottsay.net>
+---
+ package.xml          | 2 --
+ rpm/template.spec.em | 4 ++++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/package.xml b/package.xml
+index 84c6c73..66fce07 100644
+--- a/package.xml
++++ b/package.xml
+@@ -44,9 +44,7 @@
+   <!--
+   Bloom does not support group_depend so entries below duplicate the group rosidl_typesupport_c_packages.
+   -->
+-  <test_depend>rosidl_typesupport_connext_c</test_depend>
+   <test_depend>rosidl_typesupport_introspection_c</test_depend>
+-  <test_depend>rosidl_typesupport_fastrtps_c</test_depend>
+   <!-- end of group dependencies added for bloom -->
+   <test_depend>rosidl_generator_c</test_depend>
+   <test_depend>rosidl_generator_cpp</test_depend>
+diff --git a/rpm/template.spec.em b/rpm/template.spec.em
+index f723150..9dd935b 100644
+--- a/rpm/template.spec.em
++++ b/rpm/template.spec.em
+@@ -1,3 +1,7 @@
++@{
++# FastRTPS nor Connext are available for RHEL - ignore any deps related to them
++BuildDepends = [d for d in BuildDepends if not any(x for x in ['connext', 'fastrtps'] if x in d)]
++}@
+ %bcond_without tests
+ %bcond_without weak_deps
+ 
+-- 
+2.29.2
+

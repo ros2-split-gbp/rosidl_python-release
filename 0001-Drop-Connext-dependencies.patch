@@ -1,4 +1,4 @@
-From c5c60edaf9f9c45f8aaac291b54fe5e178eeb701 Mon Sep 17 00:00:00 2001
+From dab6f06c7abbd0d6dd0a412370e97c99fc5bd872 Mon Sep 17 00:00:00 2001
 From: Scott K Logan <logans@cottsay.net>
 Date: Wed, 10 Mar 2021 18:19:51 -0800
 Subject: [PATCH] Drop Connext dependencies
@@ -12,10 +12,10 @@ Signed-off-by: Scott K Logan <logans@cottsay.net>
  2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/package.xml b/package.xml
-index 84c6c73..8837087 100644
+index 731324b..4dc28b2 100644
 --- a/package.xml
 +++ b/package.xml
-@@ -44,7 +44,6 @@
+@@ -45,7 +45,6 @@
    <!--
    Bloom does not support group_depend so entries below duplicate the group rosidl_typesupport_c_packages.
    -->

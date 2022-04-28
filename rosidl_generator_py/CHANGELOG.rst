@@ -2,37 +2,15 @@
 Changelog for package rosidl_generator_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.14.2 (2022-03-01)
+0.11.2 (2022-04-28)
 -------------------
-* Removes erroneous unmatched closing parenthesis (`#125 <https://github.com/ros2/rosidl_python/issues/125>`_)
-* require Python 3.6 as we use format strings in various places (`#152 <https://github.com/ros2/rosidl_python/issues/152>`_)
-* Contributors: Charles Cross, William Woodall
+* Removes erroneous unmatched closing parenthesis (`#125 <https://github.com/ros2/rosidl_python/issues/125>`_) (`#159 <https://github.com/ros2/rosidl_python/issues/159>`_)
+* Contributors: mergify[bot]
 
-0.14.1 (2022-01-13)
+0.11.1 (2021-10-08)
 -------------------
-* Fix rosidl_generator_py assuming incorect library names (`#149 <https://github.com/ros2/rosidl_python/issues/149>`_)
-* Fix for msg file containing a property field that is not at the end (`#151 <https://github.com/ros2/rosidl_python/issues/151>`_)
-* Update package maintainers (`#147 <https://github.com/ros2/rosidl_python/issues/147>`_)
-* Contributors: Chen Lihui, Michel Hidalgo, Shane Loretz
-
-0.14.0 (2021-08-11)
--------------------
-* Use rosidl_get_typesupport_target() (`#139 <https://github.com/ros2/rosidl_python/issues/139>`_)
-* Contributors: Shane Loretz
-
-0.13.0 (2021-07-16)
--------------------
-* Support available typesupport specification in CLI extension (`#133 <https://github.com/ros2/rosidl_python/issues/133>`_)
-* Use python_d for test_cli_extension in Debug mode (`#136 <https://github.com/ros2/rosidl_python/issues/136>`_)
-* Add missing float/double bounds check (`#128 <https://github.com/ros2/rosidl_python/issues/128>`_)
-* Contributors: Michel Hidalgo, Seulbae Kim, Shane Loretz
-
-0.12.0 (2021-06-11)
--------------------
-* Added optimization for copying arrays using buffer protocol (`#129 <https://github.com/ros2/rosidl_python/issues/129>`_)
-* Add smoke test for CLI extension (`#132 <https://github.com/ros2/rosidl_python/issues/132>`_)
-* Install generated Python interfaces in a Python package (`#131 <https://github.com/ros2/rosidl_python/issues/131>`_)
-* Contributors: Michel Hidalgo, ksuszka
+* Added optimization for copying arrays of simple types from python to C using buffer protocol (`#129 <https://github.com/ros2/rosidl_python/issues/129>`_) (`#145 <https://github.com/ros2/rosidl_python/issues/145>`_)
+* Contributors: ksuszka
 
 0.11.0 (2021-03-25)
 -------------------

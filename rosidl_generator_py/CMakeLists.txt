@@ -23,6 +23,14 @@ if(BUILD_TESTING)
 
   find_package(test_interface_files REQUIRED)
 
+  find_package(python_cmake_module REQUIRED)
+  find_package(PythonExtra MODULE REQUIRED)
+
+  set(BUILDTYPE_PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE}")
+  if(WIN32 AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    set(BUILDTYPE_PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE_DEBUG}")
+  endif()
+
   include(cmake/register_py.cmake)
   include(cmake/rosidl_generator_py_get_typesupports.cmake)
 
@@ -50,6 +58,7 @@ if(BUILD_TESTING)
       # Cases not covered by test_interface_files
       msg/BuiltinTypeSequencesIdl.idl
       msg/StringArrays.msg
+      msg/Property.msg
       ADD_LINTER_TESTS
       SKIP_INSTALL
     )
@@ -59,16 +68,23 @@ if(BUILD_TESTING)
       set(_append_library_dirs "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>")
     endif()
 
-    set(_PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE}")
-    if(WIN32 AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-      set(_PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE_DEBUG}")
-    endif()
     set(pythonpath "${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_py;${CMAKE_CURRENT_SOURCE_DIR}")
     if(NOT WIN32)
       string(REPLACE ";" ":" pythonpath "${pythonpath}")
     endif()
     ament_add_pytest_test(test_interfaces_py "test/test_interfaces.py"
-      PYTHON_EXECUTABLE "${_PYTHON_EXECUTABLE}"
+      PYTHON_EXECUTABLE "${BUILDTYPE_PYTHON_EXECUTABLE}"
+      APPEND_ENV "PYTHONPATH=${pythonpath}"
+      APPEND_LIBRARY_DIRS "${_append_library_dirs}"
+      WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_py"
+    )
+
+    ament_add_pytest_test(test_cli_extension test/test_cli_extension.py
+      PYTHON_EXECUTABLE "${BUILDTYPE_PYTHON_EXECUTABLE}"
+    )
+
+    ament_add_pytest_test(test_property_py test/test_property.py
+      PYTHON_EXECUTABLE "${BUILDTYPE_PYTHON_EXECUTABLE}"
       APPEND_ENV "PYTHONPATH=${pythonpath}"
       APPEND_LIBRARY_DIRS "${_append_library_dirs}"
       WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_py"

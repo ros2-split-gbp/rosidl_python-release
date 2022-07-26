@@ -58,7 +58,7 @@ def generate_py(generator_arguments_file, typesupport_impls):
         '_idl.py.em': '_%s.py',
         '_idl_support.c.em': '_%s_s.c',
     }
-    generate_files(generator_arguments_file, mapping)
+    generated_files = generate_files(generator_arguments_file, mapping)
 
     args = read_generator_arguments(generator_arguments_file)
     package_name = args['package_name']
@@ -121,9 +121,13 @@ def generate_py(generator_arguments_file, typesupport_impls):
 
     for subfolder in modules.keys():
         with open(os.path.join(args['output_dir'], subfolder, '__init__.py'), 'w') as f:
-            for idl_stem in sorted(modules[subfolder]):
-                module_name = '_' + \
+            module_names = {}
+            for idl_stem in modules[subfolder]:
+                module_names[idl_stem] = '_' + \
                     convert_camel_case_to_lower_case_underscore(idl_stem)
+            # sorting after lower case conversion to get true order
+            for module_name, idl_stem in \
+                    sorted((value, key) for (key, value) in module_names.items()):
                 f.write(
                     f'from {package_name}.{subfolder}.{module_name} import '
                     f'{idl_stem}  # noqa: F401\n')
@@ -157,8 +161,9 @@ def generate_py(generator_arguments_file, typesupport_impls):
             expand_template(
                 template_file, data, generated_file,
                 minimum_timestamp=latest_target_timestamp)
+            generated_files.append(generated_file)
 
-    return 0
+    return generated_files
 
 
 def value_to_py(type_, value, array_as_tuple=False):

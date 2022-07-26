@@ -2,15 +2,31 @@
 Changelog for package rosidl_generator_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.9.6 (2022-07-25)
-------------------
-* Removes erroneous unmatched closing parenthesis (`#125 <https://github.com/ros2/rosidl_python/issues/125>`_) (`#158 <https://github.com/ros2/rosidl_python/issues/158>`_)
-* Contributors: Charles Cross, Chris Lalancette
+0.11.3 (2022-07-26)
+-------------------
+* Fixing generated import order (backport `#173 <https://github.com/ros2/rosidl_python/issues/173>`_)
+* Contributors: Dharini Dutia
 
-0.9.5 (2022-01-31)
-------------------
-* Added optimization for copying arrays of simple types from python to C using buffer protocol (`#129 <https://github.com/ros2/rosidl_python/issues/129>`_) (`#146 <https://github.com/ros2/rosidl_python/issues/146>`_)
+0.11.2 (2022-04-28)
+-------------------
+* Removes erroneous unmatched closing parenthesis (`#125 <https://github.com/ros2/rosidl_python/issues/125>`_) (`#159 <https://github.com/ros2/rosidl_python/issues/159>`_)
+* Contributors: mergify[bot]
+
+0.11.1 (2021-10-08)
+-------------------
+* Added optimization for copying arrays of simple types from python to C using buffer protocol (`#129 <https://github.com/ros2/rosidl_python/issues/129>`_) (`#145 <https://github.com/ros2/rosidl_python/issues/145>`_)
 * Contributors: ksuszka
+
+0.11.0 (2021-03-25)
+-------------------
+* Remove dependency from rosidl_typesupport_connext_c (`#127 <https://github.com/ros2/rosidl_python/issues/127>`_)
+* Contributors: Andrea Sorbini
+
+0.10.0 (2021-03-19)
+-------------------
+* Expose Python code generation via rosidl generate CLI (`#123 <https://github.com/ros2/rosidl_python/issues/123>`_)
+* remove maintainer (`#126 <https://github.com/ros2/rosidl_python/issues/126>`_)
+* Contributors: Claire Wang, Michel Hidalgo
 
 0.9.4 (2020-12-08)
 ------------------

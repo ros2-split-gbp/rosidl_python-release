@@ -1,3 +1,26 @@
+## rosidl_python (galactic) - 0.11.3-1
+
+The packages in the `rosidl_python` repository were released into the `galactic` distro by running `/usr/bin/bloom-release --rosdistro galactic --track galactic rosidl_python` on `Tue, 26 Jul 2022 23:36:02 -0000`
+
+The `rosidl_generator_py` package was released.
+
+Version of package(s) in repository `rosidl_python`:
+
+- upstream repository: https://github.com/ros2/rosidl_python.git
+- release repository: https://github.com/ros2-gbp/rosidl_python-release.git
+- rosdistro version: `0.11.2-1`
+- old version: `0.11.2-1`
+- new version: `0.11.3-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.4.24`
+- rosdep version: `0.22.1`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## rosidl_python (foxy) - 0.9.6-1
 
 The packages in the `rosidl_python` repository were released into the `foxy` distro by running `/usr/bin/bloom-release -r foxy rosidl_python` on `Mon, 25 Jul 2022 19:52:00 -0000`

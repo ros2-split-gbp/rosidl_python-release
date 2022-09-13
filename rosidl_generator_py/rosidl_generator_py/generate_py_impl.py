@@ -18,11 +18,6 @@ import os
 import pathlib
 import sys
 
-from rosidl_cmake import convert_camel_case_to_lower_case_underscore
-from rosidl_cmake import expand_template
-from rosidl_cmake import generate_files
-from rosidl_cmake import get_newest_modification_time
-from rosidl_cmake import read_generator_arguments
 from rosidl_parser.definition import AbstractGenericString
 from rosidl_parser.definition import AbstractNestedType
 from rosidl_parser.definition import AbstractSequence
@@ -38,6 +33,11 @@ from rosidl_parser.definition import Message
 from rosidl_parser.definition import NamespacedType
 from rosidl_parser.definition import Service
 from rosidl_parser.parser import parse_idl_file
+from rosidl_pycommon import convert_camel_case_to_lower_case_underscore
+from rosidl_pycommon import expand_template
+from rosidl_pycommon import generate_files
+from rosidl_pycommon import get_newest_modification_time
+from rosidl_pycommon import read_generator_arguments
 
 SPECIAL_NESTED_BASIC_TYPES = {
     'float': {'dtype': 'numpy.float32', 'type_code': 'f'},
@@ -121,9 +121,13 @@ def generate_py(generator_arguments_file, typesupport_impls):
 
     for subfolder in modules.keys():
         with open(os.path.join(args['output_dir'], subfolder, '__init__.py'), 'w') as f:
-            for idl_stem in sorted(modules[subfolder]):
-                module_name = '_' + \
+            module_names = {}
+            for idl_stem in modules[subfolder]:
+                module_names[idl_stem] = '_' + \
                     convert_camel_case_to_lower_case_underscore(idl_stem)
+            # sorting after lower case conversion to get true order
+            for module_name, idl_stem in \
+                    sorted((value, key) for (key, value) in module_names.items()):
                 f.write(
                     f'from {package_name}.{subfolder}.{module_name} import '
                     f'{idl_stem}  # noqa: F401\n')

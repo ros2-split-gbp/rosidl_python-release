@@ -1,7 +1,7 @@
 @# Included from rosidl_generator_py/resource/_idl_support.c.em
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 @{
-from rosidl_cmake import convert_camel_case_to_lower_case_underscore
+from rosidl_pycommon import convert_camel_case_to_lower_case_underscore
 from rosidl_generator_py.generate_py_impl import SPECIAL_NESTED_BASIC_TYPES
 from rosidl_parser.definition import AbstractNestedType
 from rosidl_parser.definition import AbstractSequence
@@ -683,7 +683,7 @@ nested_type = '__'.join(type_.namespaced_name())
       (void)rc;
       assert(rc == 0);
 @[    elif isinstance(member.type.value_type, AbstractString)]@
-      PyObject * decoded_item = PyUnicode_DecodeUTF8(src[i].data, strlen(src[i].data), "strict");
+      PyObject * decoded_item = PyUnicode_DecodeUTF8(src[i].data, strlen(src[i].data), "replace");
       if (!decoded_item) {
         return NULL;
       }
@@ -749,7 +749,7 @@ nested_type = '__'.join(type_.namespaced_name())
     field = PyUnicode_DecodeUTF8(
       ros_message->@(member.name).data,
       strlen(ros_message->@(member.name).data),
-      "strict");
+      "replace");
     if (!field) {
       return NULL;
     }

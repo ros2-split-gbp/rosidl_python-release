@@ -2,14 +2,15 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>rosidl_generator_py</name>
-  <version>0.15.0</version>
+  <version>0.16.0</version>
   <description>Generate the ROS interfaces in Python.</description>
-  <maintainer email="michel@ekumenlabs.com">Michel Hidalgo</maintainer>
   <maintainer email="sloretz@openrobotics.org">Shane Loretz</maintainer>
+  <maintainer email="dharini@openrobotics.org">Dharini Dutia</maintainer>
   <license>Apache License 2.0</license>
   <author>Esteve Fernandez</author>
   <author>Mikael Arguedas</author>
   <author email="dthomas@osrfoundation.org">Dirk Thomas</author>
+  <author email="michel@ekumenlabs.com">Michel Hidalgo</author>
 
   <build_depend>rosidl_runtime_c</build_depend>
 
@@ -20,8 +21,8 @@
   <buildtool_export_depend>ament_cmake</buildtool_export_depend>
   <buildtool_export_depend>ament_index_python</buildtool_export_depend>
   <buildtool_export_depend>python_cmake_module</buildtool_export_depend>
-  <buildtool_export_depend>rosidl_cmake</buildtool_export_depend>
   <buildtool_export_depend>rosidl_generator_c</buildtool_export_depend>
+  <buildtool_export_depend>rosidl_pycommon</buildtool_export_depend>
   <buildtool_export_depend>rosidl_typesupport_c</buildtool_export_depend>
   <buildtool_export_depend>rosidl_typesupport_interface</buildtool_export_depend>
 

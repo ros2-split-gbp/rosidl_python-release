@@ -26,14 +26,6 @@ from rosidl_generator_py import generate_py
 
 class GeneratePython(GenerateCommandExtension):
 
-    def __init__(self, name, *, typesupport_implementations=None):
-        super().__init__(name)
-        if typesupport_implementations is None:
-            typesupport_implementations = ['rosidl_typesupport_c']
-            typesupport_implementations.extend(
-                get_resources('rosidl_typesupport_c'))
-        self.__typesupport_implementations = typesupport_implementations
-
     def generate(
         self,
         package_name,
@@ -63,6 +55,10 @@ class GeneratePython(GenerateCommandExtension):
             ))
 
         # Generate code
+        typesupport_implementations = ['rosidl_typesupport_c']
+        typesupport_implementations.extend(
+            get_resources('rosidl_typesupport_c')
+        )
         with legacy_generator_arguments_file(
             package_name=package_name,
             interface_files=idl_interface_files,
@@ -72,4 +68,4 @@ class GeneratePython(GenerateCommandExtension):
         ) as path_to_arguments_file:
             return generate_py(
                 path_to_arguments_file,
-                self.__typesupport_implementations)
+                typesupport_implementations)

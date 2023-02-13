@@ -1,7 +1,7 @@
 @# Included from rosidl_generator_py/resource/_idl.py.em
 @{
 
-from rosidl_cmake import convert_camel_case_to_lower_case_underscore
+from rosidl_pycommon import convert_camel_case_to_lower_case_underscore
 from rosidl_generator_py.generate_py_impl import constant_value_to_py
 from rosidl_generator_py.generate_py_impl import get_python_type
 from rosidl_generator_py.generate_py_impl import SPECIAL_NESTED_BASIC_TYPES
@@ -13,6 +13,9 @@ from rosidl_parser.definition import AbstractWString
 from rosidl_parser.definition import ACTION_FEEDBACK_SUFFIX
 from rosidl_parser.definition import ACTION_GOAL_SUFFIX
 from rosidl_parser.definition import ACTION_RESULT_SUFFIX
+from rosidl_parser.definition import SERVICE_EVENT_MESSAGE_SUFFIX
+from rosidl_parser.definition import SERVICE_REQUEST_MESSAGE_SUFFIX
+from rosidl_parser.definition import SERVICE_RESPONSE_MESSAGE_SUFFIX
 from rosidl_parser.definition import Array
 from rosidl_parser.definition import BasicType
 from rosidl_parser.definition import BOOLEAN_TYPE
@@ -30,12 +33,20 @@ from rosidl_parser.definition import UNSIGNED_INTEGER_TYPES
 @# Collect necessary import statements for all members
 @{
 from collections import OrderedDict
-import numpy
 imports = OrderedDict()
 if message.structure.members:
     imports.setdefault(
         'import rosidl_parser.definition', [])  # used for SLOT_TYPES
 for member in message.structure.members:
+    type_ = member.type
+    if isinstance(type_, AbstractNestedType):
+        type_ = type_.value_type
+    if member.name != EMPTY_STRUCTURE_REQUIRED_MEMBER_NAME:
+        imports.setdefault(
+            'import builtins', [])  # used for @builtins.property
+    if isinstance(type_, BasicType) and type_.typename in FLOATING_POINT_TYPES:
+        imports.setdefault(
+            'import math', [])  # used for math.isinf
     if (
         isinstance(member.type, AbstractNestedType) and
         isinstance(member.type.value_type, BasicType) and
@@ -121,6 +132,11 @@ for member in message.structure.members:
     if isinstance(type_, AbstractNestedType):
         type_ = type_.value_type
     if isinstance(type_, NamespacedType):
+        if (
+            type_.name.endswith(SERVICE_RESPONSE_MESSAGE_SUFFIX) or
+            type_.name.endswith(SERVICE_REQUEST_MESSAGE_SUFFIX)
+        ):
+            continue
         if (
             type_.name.endswith(ACTION_GOAL_SUFFIX) or
             type_.name.endswith(ACTION_RESULT_SUFFIX) or
@@ -405,7 +421,7 @@ noqa_string = ''
 if member.name in dict(inspect.getmembers(builtins)).keys():
     noqa_string = '  # noqa: A003'
 }@
-    @@property@(noqa_string)
+    @@builtins.property@(noqa_string)
     def @(member.name)(self):@(noqa_string)
         """Message field '@(member.name)'."""
         return self._@(member.name)
@@ -497,6 +513,22 @@ bound = 2**nbits
 @[    elif isinstance(type_, BasicType) and type_.typename == 'char']@
                  all(ord(val) >= 0 and ord(val) < 256 for val in value)), \
 @{assert_msg_suffixes.append('and each char in [0, 255]')}@
+@[    elif isinstance(type_, BasicType) and type_.typename in FLOATING_POINT_TYPES]@
+@[      if type_.typename == "float"]@
+@{
+name = "float"
+bound = 3.402823466e+38
+}@
+                 all(not (val < -@(bound) or val > @(bound)) or math.isinf(val) for val in value)), \
+@{assert_msg_suffixes.append('and each float in [%f, %f]' % (-bound, bound))}@
+@[      elif type_.typename == "double"]@
+@{
+name = "double"
+bound = 1.7976931348623157e+308
+}@
+                 all(not (val < -@(bound) or val > @(bound)) or math.isinf(val) for val in value)), \
+@{assert_msg_suffixes.append('and each double in [%f, %f]' % (-bound, bound))}@
+@[      end if]@
 @[    else]@
                  True), \
 @[    end if]@
@@ -538,6 +570,20 @@ bound = 2**nbits
 }@
             assert value >= 0 and value < @(bound), \
                 "The '@(member.name)' field must be an unsigned integer in [0, @(bound - 1)]"
+@[    elif type_.typename in FLOATING_POINT_TYPES]@
+@[      if type_.typename == "float"]@
+@{
+name = "float"
+bound = 3.402823466e+38
+}@
+@[      elif type_.typename == "double"]@
+@{
+name = "double"
+bound = 1.7976931348623157e+308
+}@
+@[      end if]@
+            assert not (value < -@(bound) or value > @(bound)) or math.isinf(value), \
+                "The '@(member.name)' field must be a @(name) in [@(-bound), @(bound)]"
 @[    end if]@
 @[  else]@
                 False

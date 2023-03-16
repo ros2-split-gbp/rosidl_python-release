@@ -1,3 +1,26 @@
+## rosidl_python (foxy) - 0.9.7-1
+
+The packages in the `rosidl_python` repository were released into the `foxy` distro by running `/usr/bin/bloom-release --track foxy --rosdistro foxy rosidl_python` on `Thu, 16 Mar 2023 10:31:29 -0000`
+
+The `rosidl_generator_py` package was released.
+
+Version of package(s) in repository `rosidl_python`:
+
+- upstream repository: https://github.com/ros2/rosidl_python.git
+- release repository: https://github.com/ros2-gbp/rosidl_python-release.git
+- rosdistro version: `0.9.6-1`
+- old version: `0.9.6-1`
+- new version: `0.9.7-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.1`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## rosidl_python (rolling) - 0.17.0-1
 
 The packages in the `rosidl_python` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --track rolling --rosdistro rolling rosidl_python` on `Mon, 13 Feb 2023 20:25:06 -0000`

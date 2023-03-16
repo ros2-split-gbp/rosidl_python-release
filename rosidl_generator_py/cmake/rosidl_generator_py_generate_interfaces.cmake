@@ -17,7 +17,7 @@ find_package(rosidl_runtime_c REQUIRED)
 find_package(rosidl_typesupport_c REQUIRED)
 find_package(rosidl_typesupport_interface REQUIRED)
 
-find_package(PythonInterp 3.6 REQUIRED)
+find_package(PythonInterp 3.5 REQUIRED)
 
 find_package(python_cmake_module REQUIRED)
 find_package(PythonExtra MODULE REQUIRED)
@@ -121,7 +121,19 @@ rosidl_write_generator_arguments(
 )
 
 if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
-  ament_python_install_package(${PROJECT_NAME} PACKAGE_DIR "${_output_path}")
+  ament_python_install_module("${_output_path}/__init__.py"
+    DESTINATION_SUFFIX "${PROJECT_NAME}"
+  )
+
+  # TODO(esteve): replace this with ament_python_install_module and allow a list
+  # of modules to be passed instead of iterating over _generated_py_files
+  # See https://github.com/ros2/rosidl/issues/89
+  foreach(_generated_py_dir ${_generated_py_dirs})
+    install(DIRECTORY "${_output_path}/${_generated_py_dir}/"
+      DESTINATION "${PYTHON_INSTALL_DIR}/${PROJECT_NAME}/${_generated_py_dir}"
+      PATTERN "*.py"
+    )
+  endforeach()
 endif()
 
 set(_target_suffix "__py")
@@ -159,10 +171,7 @@ macro(set_lib_properties _build_type)
     RUNTIME_OUTPUT_DIRECTORY${_build_type} ${_output_path})
 endmacro()
 
-# Export target so downstream interface packages can link to it
-set(rosidl_generator_py_suffix "__rosidl_generator_py")
-
-set(_target_name_lib "${rosidl_generate_interfaces_TARGET}${rosidl_generator_py_suffix}")
+set(_target_name_lib "${rosidl_generate_interfaces_TARGET}__python")
 add_library(${_target_name_lib} SHARED ${_generated_c_files})
 target_link_libraries(${_target_name_lib}
   ${rosidl_generate_interfaces_TARGET}__rosidl_generator_c)
@@ -177,7 +186,7 @@ target_link_libraries(
   ${PythonExtra_LIBRARIES}
 )
 target_include_directories(${_target_name_lib}
-  PRIVATE
+  PUBLIC
   ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_c
   ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_py
   ${PythonExtra_INCLUDE_DIRS}
@@ -209,8 +218,8 @@ if(APPLE OR WIN32 OR NOT _numpy_h)
   target_include_directories(${_target_name_lib} PUBLIC "${_output}")
 endif()
 
-rosidl_get_typesupport_target(c_typesupport_target "${rosidl_generate_interfaces_TARGET}" "rosidl_typesupport_c")
-target_link_libraries(${_target_name_lib} ${c_typesupport_target})
+rosidl_target_interfaces(${_target_name_lib}
+  ${rosidl_generate_interfaces_TARGET} rosidl_typesupport_c)
 
 foreach(_typesupport_impl ${_typesupport_impls})
   find_package(${_typesupport_impl} REQUIRED)
@@ -257,7 +266,8 @@ foreach(_typesupport_impl ${_typesupport_impls})
     ${PythonExtra_INCLUDE_DIRS}
   )
 
-  target_link_libraries(${_target_name} ${c_typesupport_target})
+  rosidl_target_interfaces(${_target_name}
+    ${rosidl_generate_interfaces_TARGET} rosidl_typesupport_c)
 
   ament_target_dependencies(${_target_name}
     "rosidl_runtime_c"
@@ -286,9 +296,17 @@ endforeach()
 
 set(PYTHON_EXECUTABLE ${_PYTHON_EXECUTABLE})
 
-# Depend on rosidl_generator_py generated targets from our dependencies
 foreach(_pkg_name ${rosidl_generate_interfaces_DEPENDENCY_PACKAGE_NAMES})
-  target_link_libraries(${_target_name_lib} ${${_pkg_name}_TARGETS${rosidl_generator_py_suffix}})
+  set(_pkg_install_base "${${_pkg_name}_DIR}/../../..")
+  set(_pkg_python_libname "${_pkg_name}__python")
+
+  if(WIN32)
+    target_link_libraries(${_target_name_lib} "${_pkg_install_base}/Lib/${_pkg_python_libname}.lib")
+  elseif(APPLE)
+    target_link_libraries(${_target_name_lib} "${_pkg_install_base}/lib/lib${_pkg_python_libname}.dylib")
+  else()
+    target_link_libraries(${_target_name_lib} "${_pkg_install_base}/lib/lib${_pkg_python_libname}.so")
+  endif()
 endforeach()
 
 set_lib_properties("")
@@ -300,14 +318,9 @@ if(WIN32)
 endif()
 if(NOT rosidl_generate_interfaces_SKIP_INSTALL)
   install(TARGETS ${_target_name_lib}
-    EXPORT export_${_target_name_lib}
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
-
-  # Export this target so downstream interface packages can depend on it
-  rosidl_export_typesupport_targets("${rosidl_generator_py_suffix}" "${_target_name_lib}")
-  ament_export_targets(export_${_target_name_lib})
 endif()
 
 if(BUILD_TESTING AND rosidl_generate_interfaces_ADD_LINTER_TESTS)

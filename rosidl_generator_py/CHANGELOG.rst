@@ -2,77 +2,20 @@
 Changelog for package rosidl_generator_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.17.0 (2023-02-13)
--------------------
-* Service introspection (`#178 <https://github.com/ros2/rosidl_python/issues/178>`_)
-* [rolling] Update maintainers - 2022-11-07 (`#189 <https://github.com/ros2/rosidl_python/issues/189>`_)
-* Contributors: Audrow Nash, Brian
+0.9.7 (2023-03-16)
+------------------
+* Change decode error mode to replace (`#176 <https://github.com/ros2/rosidl_python/issues/176>`_) (`#181 <https://github.com/ros2/rosidl_python/issues/181>`_)
+* Contributors: mergify[bot], Tomoya Fujita
 
-0.16.1 (2022-11-02)
--------------------
-* Remove stray numpy import (`#185 <https://github.com/ros2/rosidl_python/issues/185>`_)
-* Contributors: Ben Wolsieffer
+0.9.6 (2022-07-25)
+------------------
+* Removes erroneous unmatched closing parenthesis (`#125 <https://github.com/ros2/rosidl_python/issues/125>`_) (`#158 <https://github.com/ros2/rosidl_python/issues/158>`_)
+* Contributors: Charles Cross, Chris Lalancette
 
-0.16.0 (2022-09-13)
--------------------
-* :man_farmer: Fix NaN values bound numpy windows version (`#182 <https://github.com/ros2/rosidl_python/issues/182>`_)
-* Allow NaN values to pass floating point bounds check. (`#167 <https://github.com/ros2/rosidl_python/issues/167>`_)
-* Replace rosidl_cmake imports with rosidl_pycommon (`#177 <https://github.com/ros2/rosidl_python/issues/177>`_)
-* Change decode error mode to replace (`#176 <https://github.com/ros2/rosidl_python/issues/176>`_)
-* Merge pull request `#173 <https://github.com/ros2/rosidl_python/issues/173>`_ from ros2/quarkytale/fix_import_order
-* fix flake
-* sorting after conversion
-* Revert "Use modern cmake targets to avoid absolute paths to appear in binary archives (`#160 <https://github.com/ros2/rosidl_python/issues/160>`_)" (`#166 <https://github.com/ros2/rosidl_python/issues/166>`_)
-* Use modern cmake targets to avoid absolute paths to appear in binary archives (`#160 <https://github.com/ros2/rosidl_python/issues/160>`_)
-* michel as author
-* adding maintainer
-* Contributors: Cristóbal Arroyo, Dharini Dutia, Ivan Santiago Paunovic, Jacob Perron, Tomoya Fujita, quarkytale, Øystein Sture
-
-0.15.0 (2022-05-04)
--------------------
-
-0.14.2 (2022-03-01)
--------------------
-* Removes erroneous unmatched closing parenthesis (`#125 <https://github.com/ros2/rosidl_python/issues/125>`_)
-* require Python 3.6 as we use format strings in various places (`#152 <https://github.com/ros2/rosidl_python/issues/152>`_)
-* Contributors: Charles Cross, William Woodall
-
-0.14.1 (2022-01-13)
--------------------
-* Fix rosidl_generator_py assuming incorect library names (`#149 <https://github.com/ros2/rosidl_python/issues/149>`_)
-* Fix for msg file containing a property field that is not at the end (`#151 <https://github.com/ros2/rosidl_python/issues/151>`_)
-* Update package maintainers (`#147 <https://github.com/ros2/rosidl_python/issues/147>`_)
-* Contributors: Chen Lihui, Michel Hidalgo, Shane Loretz
-
-0.14.0 (2021-08-11)
--------------------
-* Use rosidl_get_typesupport_target() (`#139 <https://github.com/ros2/rosidl_python/issues/139>`_)
-* Contributors: Shane Loretz
-
-0.13.0 (2021-07-16)
--------------------
-* Support available typesupport specification in CLI extension (`#133 <https://github.com/ros2/rosidl_python/issues/133>`_)
-* Use python_d for test_cli_extension in Debug mode (`#136 <https://github.com/ros2/rosidl_python/issues/136>`_)
-* Add missing float/double bounds check (`#128 <https://github.com/ros2/rosidl_python/issues/128>`_)
-* Contributors: Michel Hidalgo, Seulbae Kim, Shane Loretz
-
-0.12.0 (2021-06-11)
--------------------
-* Added optimization for copying arrays using buffer protocol (`#129 <https://github.com/ros2/rosidl_python/issues/129>`_)
-* Add smoke test for CLI extension (`#132 <https://github.com/ros2/rosidl_python/issues/132>`_)
-* Install generated Python interfaces in a Python package (`#131 <https://github.com/ros2/rosidl_python/issues/131>`_)
-* Contributors: Michel Hidalgo, ksuszka
-
-0.11.0 (2021-03-25)
--------------------
-* Remove dependency from rosidl_typesupport_connext_c (`#127 <https://github.com/ros2/rosidl_python/issues/127>`_)
-* Contributors: Andrea Sorbini
-
-0.10.0 (2021-03-19)
--------------------
-* Expose Python code generation via rosidl generate CLI (`#123 <https://github.com/ros2/rosidl_python/issues/123>`_)
-* remove maintainer (`#126 <https://github.com/ros2/rosidl_python/issues/126>`_)
-* Contributors: Claire Wang, Michel Hidalgo
+0.9.5 (2022-01-31)
+------------------
+* Added optimization for copying arrays of simple types from python to C using buffer protocol (`#129 <https://github.com/ros2/rosidl_python/issues/129>`_) (`#146 <https://github.com/ros2/rosidl_python/issues/146>`_)
+* Contributors: ksuszka
 
 0.9.4 (2020-12-08)
 ------------------

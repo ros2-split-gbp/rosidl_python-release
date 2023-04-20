@@ -1,0 +1,12 @@
+Source: ros-iron-rosidl-generator-py
+Section: misc
+Priority: optional
+Maintainer: Dharini Dutia <dharini@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-numpy <!nocheck>, python3-pytest <!nocheck>, ros-iron-ament-cmake, ros-iron-ament-cmake-pytest <!nocheck>, ros-iron-ament-index-python <!nocheck>, ros-iron-ament-lint-auto <!nocheck>, ros-iron-ament-lint-common <!nocheck>, ros-iron-python-cmake-module <!nocheck>, ros-iron-rmw <!nocheck>, ros-iron-rosidl-cmake <!nocheck>, ros-iron-rosidl-generator-c <!nocheck>, ros-iron-rosidl-generator-cpp <!nocheck>, ros-iron-rosidl-parser <!nocheck>, ros-iron-rosidl-runtime-c, ros-iron-rosidl-typesupport-c <!nocheck>, ros-iron-rosidl-typesupport-fastrtps-c <!nocheck>, ros-iron-rosidl-typesupport-introspection-c <!nocheck>, ros-iron-rpyutils <!nocheck>, ros-iron-test-interface-files <!nocheck>, ros-iron-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-iron-rosidl-generator-py
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-numpy, ros-iron-ament-cmake, ros-iron-ament-index-python, ros-iron-python-cmake-module, ros-iron-rmw, ros-iron-rosidl-cli, ros-iron-rosidl-generator-c, ros-iron-rosidl-parser, ros-iron-rosidl-pycommon, ros-iron-rosidl-runtime-c, ros-iron-rosidl-typesupport-c, ros-iron-rosidl-typesupport-interface, ros-iron-rpyutils, ros-iron-ros-workspace
+Description: Generate the ROS interfaces in Python.
